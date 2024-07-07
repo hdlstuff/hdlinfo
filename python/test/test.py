@@ -18,7 +18,7 @@ class MyModuleConfig:
 def main() -> None:
     from hdlinfo import Module, Interface, Port, PortDirection, PortKind, PortSensitivity
 
-    pprint(Module.fromJsonFile("./testInput.hdlinfo.json"))
+    pprint(Module.fromJsonFile("./test/testInput.hdlinfo.json"))
 
     Module(
         "OtherModule",
@@ -37,7 +37,7 @@ def main() -> None:
                 }
             )
         ]
-    ).toJsonFile("./testOutput.hdlinfo.json")
+    ).toJsonFile("./test/testOutput.hdlinfo.json")
 
 
 if __name__ == "__main__":

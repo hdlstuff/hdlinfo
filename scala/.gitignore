@@ -41,3 +41,8 @@ project/plugins/project/
 .history
 .cache
 .lib/
+
+# project and .metals directories are automatically generated
+project/
+.metals/
+.bloop
