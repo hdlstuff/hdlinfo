@@ -2,7 +2,7 @@
 
 ThisBuild / scalaVersion := "2.13.12"
 ThisBuild / version := "0.1.0"
-ThisBuild / organization := "hdlinfo"
+ThisBuild / organization := "hdlstuff"
 
 val circeVersion = "0.14.1"
 
