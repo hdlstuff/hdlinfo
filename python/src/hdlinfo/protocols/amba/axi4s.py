@@ -7,7 +7,7 @@ __all__ = ["Config", "kind"]
 kind = "axi4s"
 
 
-@register_dataclass_adv("hdlinfo.protocols.amba.axi4s.Config")
+@register_dataclass_adv("hdlinfo.protocols.amba.axi4s.Config", aliases=["chext.amba.axi4s.Config"])
 @dataclass(frozen=True)
 class Config:
     wData: int

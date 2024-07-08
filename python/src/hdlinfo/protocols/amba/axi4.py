@@ -79,7 +79,7 @@ _AXI4LITE_SIGNALS = [
 ]
 
 
-@register_dataclass_adv("hdlinfo.protocols.amba.axi4.Config")
+@register_dataclass_adv("hdlinfo.protocols.amba.axi4.Config", aliases=["chext.amba.axi4.Config"])
 @dataclass(frozen=True)
 class Config:
     wId: int = 0
