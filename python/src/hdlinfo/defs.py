@@ -1,7 +1,7 @@
 from .json import register_dataclass, TypedObject, from_json, from_dict, to_json, to_dict
 from dataclasses import dataclass, field
 from typing import Tuple, List, Callable, Iterable, Dict
-import abc
+import enum
 
 __all__ = [
     "PortDirection",
@@ -13,14 +13,14 @@ __all__ = [
 ]
 
 
-class PortDirection(abc.ABC):
+class PortDirection:
     none = "none"
     input = "input"
     output = "output"
     bidirectional = "bidirectional"
 
 
-class PortKind(abc.ABC):
+class PortKind:
     none = "none"
 
     clock = "clock"
@@ -30,7 +30,7 @@ class PortKind(abc.ABC):
     interrupt = "interrupt"
 
 
-class PortSensitivity(abc.ABC):
+class PortSensitivity:
     none = "none"
 
     resetActiveHigh = "resetActiveHigh"
