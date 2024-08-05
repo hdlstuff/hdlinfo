@@ -94,7 +94,13 @@ class Config:
     wUserW: int = 0
     wUserB: int = 0
 
-    skippedSignals: List[str] = field(default_factory=list)
+    hasLock: bool = True
+    hasCache: bool = True
+    hasProt: bool = True
+    hasQos: bool = True
+    hasRegion: bool = True
+
+    hasWID: bool = False
 
     def __post_init__(self):
         if self.wData < 8:
@@ -114,18 +120,57 @@ class Config:
 
     @property
     def signals(self) -> List[str]:
-        if self.lite:
-            return list(_AXI4LITE_SIGNALS)
-
         result = []
-        for signal in _AXI4_SIGNALS:
-            if signal in self.skippedSignals:
-                continue
 
-            if signal.endswith("USER"):
-                width: int = getattr(self, f'wUser{signal.removesuffix("USER")}')
-                if width == 0:
+        if self.lite:
+            for signal in _AXI4LITE_SIGNALS:
+                if signal.startswith("AR") or signal.startswith("R"):
+                    if not self.read:
+                        continue
+
+                if signal.startswith("AW") or signal.startswith("W") or signal.startswith("B"):
+                    if not self.write:
+                        continue
+
+                if signal.endswith("PROT") and not self.hasProt:
                     continue
-            else:
+
                 result.append(signal)
+
+        else:
+            for signal in _AXI4_SIGNALS:
+                if signal.startswith("AR") or signal.startswith("R"):
+                    if not self.read:
+                        continue
+
+                if signal.startswith("AW") or signal.startswith("W") or signal.startswith("B"):
+                    if not self.write:
+                        continue
+
+                if signal.endswith("USER"):
+                    width: int = getattr(self, f'wUser{signal.removesuffix("USER")}')
+                    if width == 0:
+                        continue
+
+                if signal.endswith("PROT") and not self.hasProt:
+                    continue
+
+                if signal.endswith("LOCK") and not self.hasLock:
+                    continue
+
+                if signal.endswith("CACHE") and not self.hasCache:
+                    continue
+
+                if signal.endswith("QOS") and not self.hasQos:
+                    continue
+
+                if signal.endswith("REGION") and not self.hasRegion:
+                    continue
+
+                result.append(signal)
+
+            if self.hasWID and self.write:
+                # this signal normally exists only in AXI3, though it is still optional
+                result.append("WID")
+
         return result
