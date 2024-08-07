@@ -167,6 +167,9 @@ class Config:
                 if signal.endswith("REGION") and not self.hasRegion:
                     continue
 
+                if signal.endswith("ID") and self.wId == 0:
+                    continue
+
                 result.append(signal)
 
             if self.hasWID and self.write:
