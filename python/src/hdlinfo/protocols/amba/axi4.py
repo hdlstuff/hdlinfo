@@ -167,12 +167,12 @@ class Config:
                 if signal.endswith("REGION") and not self.hasRegion:
                     continue
 
-                if signal.endswith("ID") and self.wId == 0:
+                if signal in ["ARID", "AWID", "RID", "BID"] and self.wId == 0:
                     continue
 
                 result.append(signal)
 
-            if self.hasWID and self.write:
+            if self.hasWID and self.write and self.wId > 0:
                 # this signal normally exists only in AXI3, though it is still optional
                 result.append("WID")
 
