@@ -88,19 +88,19 @@ class Config:
     read: bool = True
     write: bool = True
     lite: bool = False
-    wUserAR: int = 0
-    wUserR: int = 0
-    wUserAW: int = 0
-    wUserW: int = 0
-    wUserB: int = 0
-
     hasLock: bool = True
     hasCache: bool = True
     hasProt: bool = True
     hasQos: bool = True
     hasRegion: bool = True
 
-    hasWID: bool = False
+    axi3Compat: bool = False
+
+    wUserAR: int = 0
+    wUserR: int = 0
+    wUserAW: int = 0
+    wUserW: int = 0
+    wUserB: int = 0
 
     def __post_init__(self):
         if self.wData < 8:
@@ -171,9 +171,5 @@ class Config:
                     continue
 
                 result.append(signal)
-
-            if self.hasWID and self.write and self.wId > 0:
-                # this signal normally exists only in AXI3, though it is still optional
-                result.append("WID")
 
         return result
