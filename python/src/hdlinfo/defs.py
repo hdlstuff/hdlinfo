@@ -1,7 +1,6 @@
 from .json import register_dataclass, TypedObject, from_json, from_dict, to_json, to_dict
 from dataclasses import dataclass, field
 from typing import Tuple, List, Callable, Iterable, Dict
-import enum
 
 __all__ = [
     "PortDirection",
