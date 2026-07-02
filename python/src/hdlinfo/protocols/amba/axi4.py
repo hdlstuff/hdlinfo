@@ -119,6 +119,30 @@ class Config:
         return self.wData // 8
 
     @property
+    def wLen(self):
+        return 4 if self.axi3Compat else 8
+
+    @property
+    def wLock(self):
+        return (2 if self.axi3Compat else 1) if self.hasLock else 0
+
+    @property
+    def wCache(self):
+        return 4 if self.hasCache else 0
+
+    @property
+    def wProt(self):
+        return 3 if self.hasProt else 0
+
+    @property
+    def wQos(self):
+        return 4 if self.hasQos else 0
+
+    @property
+    def wRegion(self):
+        return 4 if self.hasRegion else 0
+
+    @property
     def signals(self) -> List[str]:
         result = []
 

@@ -62,12 +62,17 @@
                     "read": true,
                     "write": true,
                     "lite": true,
+                    "hasLock": true,
+                    "hasCache": true,
+                    "hasProt": true,
+                    "hasQos": true,
+                    "hasRegion": true,
+                    "axi3Compat": false,
                     "wUserAR": 0,
                     "wUserR": 0,
                     "wUserAW": 0,
                     "wUserW": 0,
-                    "wUserB": 0,
-                    "skippedSignals": []
+                    "wUserB": 0
                 }
             }
         }

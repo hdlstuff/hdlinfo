@@ -17,12 +17,28 @@ import hdlinfo.util.isPow2
   *   enable write channels
   * @param lite
   *   use AXI4-Lite variant
-  * @param wUserReq
-  *   data width for ARUSER and AWUSER (see p. A8-104 in ARM IHI 0022H.c)
-  * @param wUserData
-  *   user data width for RUSER and WUSER (see p. A8-104 in ARM IHI 0022H.c)
-  * @param wUserResp
-  *   user data width for RUSER and BUSER (see p. A8-104 in ARM IHI 0022H.c)
+  * @param hasLock
+  *   enable ARLOCK and AWLOCK
+  * @param hasCache
+  *   enable ARCACHE and AWCACHE
+  * @param hasProt
+  *   enable ARPROT and AWPROT
+  * @param hasQos
+  *   enable ARQOS and AWQOS
+  * @param hasRegion
+  *   enable ARREGION and AWREGION
+  * @param axi3Compat
+  *   AXI3 compatibility: 2-bit AxLOCK and 4-bit AxLEN, still without WID
+  * @param wUserAR
+  *   ARUSER field width
+  * @param wUserR
+  *   RUSER field width
+  * @param wUserAW
+  *   AWUSER field width
+  * @param wUserW
+  *   WUSER field width
+  * @param wUserB
+  *   BUSER field width
   */
 case class Config(
     val wId: Int = 0,
@@ -31,6 +47,12 @@ case class Config(
     val read: Boolean = true,
     val write: Boolean = true,
     val lite: Boolean = false,
+    val hasLock: Boolean = true,
+    val hasCache: Boolean = true,
+    val hasProt: Boolean = true,
+    val hasQos: Boolean = true,
+    val hasRegion: Boolean = true,
+    val axi3Compat: Boolean = false,
     val wUserAR: Int = 0,
     val wUserR: Int = 0,
     val wUserAW: Int = 0,
@@ -43,6 +65,15 @@ case class Config(
 
   /** width of the strobe signal for the write data channel */
   val wStrobe = wData / 8
+
+  private def maybeZero(p: Boolean, w: Int) = if (p) w else 0
+
+  val wLen = if (axi3Compat) 4 else 8
+  val wLock = maybeZero(hasLock, if (axi3Compat) 2 else 1)
+  val wCache = maybeZero(hasCache, 4)
+  val wProt = maybeZero(hasProt, 3)
+  val wQos = maybeZero(hasQos, 4)
+  val wRegion = maybeZero(hasRegion, 4)
 }
 
 import io.circe.syntax._
@@ -51,5 +82,6 @@ import io.circe.generic.auto._
 object register {
   def apply(): Unit = {
     Registry.register[Config]("hdlinfo.protocols.amba.axi4.Config")
+    Registry.registerStringToType[Config]("chext.amba.axi4.Config")
   }
 }

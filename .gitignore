@@ -38,3 +38,8 @@ Temporary Items
 
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
+
+# Local editor and language-server metadata
+.vscode/
+.metals/
+.bsp/
